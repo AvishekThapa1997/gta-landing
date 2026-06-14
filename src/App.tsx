@@ -1,9 +1,11 @@
+import NavBar from "./components/NavBar";
+import Hero from "./sections/Hero";
+
 const App = () => {
   return (
     <main>
-      <div>
-        <h1>Welcome to the world of GTA and GSAP</h1>
-      </div>
+      <NavBar />
+      <Hero />
     </main>
   );
 };
