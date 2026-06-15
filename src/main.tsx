@@ -5,6 +5,8 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 import "./index.css";
 import App from "./App";
 import { useGSAP } from "@gsap/react";
+import { GSDevTools } from "gsap/GSDevTools";
+gsap.registerPlugin(GSDevTools);
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(useGSAP);
 

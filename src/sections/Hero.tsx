@@ -3,10 +3,11 @@ import ComingSoon from "./ComingSoon";
 import gsap from "gsap";
 import { useRef } from "react";
 import { useMaskSettings } from "../constants";
+import { GSDevTools } from "gsap/GSDevTools";
 
 const Hero = () => {
   const heroRef = useRef<HTMLElement | null>(null);
-  const { initialMaskPos, initialMaskSize, maskPos, maskSize } =
+  const { initialMaskPos, initialMaskSize,  maskSize } =
     useMaskSettings();
   useGSAP(
     () => {
@@ -32,14 +33,12 @@ const Hero = () => {
         })
         .to(".scale-out", { scale: 1, ease: "power1.inOut" })
         .to(".mask-wrapper", { maskSize, ease: "power1.inOut" }, "<")
-        .to(".mask-wrapper", { opacity: 0 })
+        .to('.white-overlay',{opacity:1,zIndex:10},"<")
+        .to(".mask-wrapper",{opacity:0})
         .to(
           ".overlay-logo",
           {
             opacity: 1,
-            onComplete: () => {
-              gsap.to(".overlay-logo", { opacity: 0 });
-            },
           },
           "<",
         )
@@ -48,6 +47,9 @@ const Hero = () => {
           ease: "power1.inOut",
           maskImage:
             "radial-gradient(circle at 50% 0vh, black 50%, transparent 100%)",
+            onComplete:() => {
+              gsap.to(".overlay-logo,.mask-logo", { opacity: 0 });
+            },
         });
     },
     { scope: heroRef },
@@ -56,6 +58,7 @@ const Hero = () => {
     <section ref={heroRef}>
       <div className="hero-section">
         <div className="size-full mask-wrapper">
+          <div className="white-overlay absolute bg-white opacity-0 inset-0"></div>
           <img
             src="/images/hero-bg.webp"
             alt="Background"
@@ -74,13 +77,6 @@ const Hero = () => {
           <div className="play-img fade-out">
             <img src="/images/play.png" alt="play" className="w-7 ml-1" />
           </div>
-        </div>
-        <div>
-          <img
-            src="/images/big-hero-text.svg"
-            alt="logo"
-            className="size-full object-cover mask-logo"
-          />
         </div>
         <div className="fake-logo-wrapper">
           <img src="/images/big-hero-text.svg" className="overlay-logo" />
