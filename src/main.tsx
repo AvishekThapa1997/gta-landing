@@ -6,12 +6,15 @@ import "./index.css";
 import App from "./App";
 import { useGSAP } from "@gsap/react";
 import { GSDevTools } from "gsap/GSDevTools";
+import SectionRefProvider from "./provider/SectionRefProvider";
 gsap.registerPlugin(GSDevTools);
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(useGSAP);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    <SectionRefProvider>
+      <App />
+    </SectionRefProvider>
   </StrictMode>,
 );

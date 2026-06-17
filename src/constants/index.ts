@@ -1,4 +1,6 @@
 import { useMediaQuery } from "react-responsive";
+import { SectionRefContext } from "../provider/SectionRefProvider";
+import { use } from "react";
 
 export const useMaskSettings = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
@@ -29,3 +31,12 @@ export const useMaskSettings = () => {
     maskSize: "20% 20%",
   };
 };
+
+
+export const useSectionRef =() => {
+  const data = use(SectionRefContext);
+  if(!data){
+    throw new Error("useSectionRef must be used within SectionRefProvider")
+  }
+  return data;
+} 

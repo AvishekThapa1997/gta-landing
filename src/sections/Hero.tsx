@@ -1,14 +1,11 @@
 import { useGSAP } from "@gsap/react";
-import ComingSoon from "./ComingSoon";
 import gsap from "gsap";
-import { useRef } from "react";
-import { useMaskSettings } from "../constants";
-import { GSDevTools } from "gsap/GSDevTools";
+import { useMaskSettings, useSectionRef } from "../constants";
+import ComingSoon from "./ComingSoon";
 
 const Hero = () => {
-  const heroRef = useRef<HTMLElement | null>(null);
-  const { initialMaskPos, initialMaskSize,  maskSize } =
-    useMaskSettings();
+  const { heroRef } = useSectionRef();
+  const { initialMaskPos, initialMaskSize, maskSize } = useMaskSettings();
   useGSAP(
     () => {
       gsap.set(".mask-wrapper", {
@@ -21,7 +18,7 @@ const Hero = () => {
         scrollTrigger: {
           trigger: ".hero-section",
           start: "top top",
-          end: "+=200%",
+          end: "+=250%",
           scrub: 2.5,
           pin: true,
         },
@@ -32,9 +29,13 @@ const Hero = () => {
           ease: "power1.inOut",
         })
         .to(".scale-out", { scale: 1, ease: "power1.inOut" })
-        .to(".mask-wrapper", { maskSize, ease: "power1.inOut" }, "<")
-        .to('.white-overlay',{opacity:1,zIndex:10},"<")
-        .to(".mask-wrapper",{opacity:0})
+        .to(
+          ".mask-wrapper",
+          { maskSize, duration: 1, ease: "power1.inOut" },
+          "<",
+        )
+        .to(".white-overlay", { opacity: 1, duration: 0.5, zIndex: 10 }, "<0.7")
+        .to(".mask-wrapper", { opacity: 0 })
         .to(
           ".overlay-logo",
           {
@@ -42,15 +43,19 @@ const Hero = () => {
           },
           "<",
         )
-        .to(".entrance-message", {
-          duration: 1,
-          ease: "power1.inOut",
-          maskImage:
-            "radial-gradient(circle at 50% 0vh, black 50%, transparent 100%)",
-            onComplete:() => {
+        .to(
+          ".entrance-message",
+          {
+            duration: 1,
+            ease: "power1.inOut",
+            maskImage:
+              "radial-gradient(circle at 50% 0vh, black 50%, transparent 100%)",
+            onComplete: () => {
               gsap.to(".overlay-logo,.mask-logo", { opacity: 0 });
             },
-        });
+          },
+          "<",
+        );
     },
     { scope: heroRef },
   );
